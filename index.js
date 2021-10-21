@@ -2,6 +2,19 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/action");
 
+const countComments = async (octokit, prID, authorLogin) => {
+  const response = await octokit.request(`GET /repos/blinkist/blinkist-web/pulls/${prID}/comments`, {
+    org: "blinkist",
+    type: "private"
+  });
+
+  const authorComments = response.data.filter(comment => {
+    return comment.user.login === authorLogin;
+  });
+
+  return authorComments.length;
+};
+
 try {
   const octokit = new Octokit();
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
@@ -54,6 +67,22 @@ try {
       core.info("Your PR description is long enough!");
     } else {
       core.setFailed("Your PR description is too short.");
+    }
+  }
+
+  // Count author comments
+  const rawMinComments = core.getInput("min-comments") || 0;
+
+  if(rawMinComments) {
+    const minCommentsCount = parseInt(rawMinComments, 10);
+    const authorLogin = github.context.payload.pull_request.user.login;
+    const prId = github.context.payload.pull_request.id;
+    const commentsCount = countComments(octokit, prId, authorLogin);
+
+    if (commentsCount >= minCommentsCount) {
+      core.info("Your PR description has enough comments.");
+    } else {
+      core.setFailed("Your PR needs more comments!");
     }
   }
 } catch (error) {

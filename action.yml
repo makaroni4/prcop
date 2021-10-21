@@ -18,6 +18,9 @@ inputs:
   description-min-words:
     description: 'Min number of words in your PR description.'
     required: false
+  min-comments:
+    description: 'Min number of comments.'
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'
