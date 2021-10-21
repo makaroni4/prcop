@@ -6,8 +6,8 @@ try {
   const octokit = new Octokit();
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
 
-  console.lo("--> Owner: ", owner);
-  console.lo("--> Repo: ", repo);
+  console.log("--> Owner: ", owner);
+  console.log("--> Repo: ", repo);
 
   const prTitle = github.context.payload.pull_request.title;
 
@@ -16,8 +16,8 @@ try {
   const titleRegexp = core.getInput("title-regexp");
   const titleErrorMessage = core.getInput("title-format-error-message");
 
-  console.lo("--> titleRegexp: ", titleRegexp);
-  console.lo("--> titleErrorMessage: ", titleErrorMessage);
+  console.log("--> titleRegexp: ", titleRegexp);
+  console.log("--> titleErrorMessage: ", titleErrorMessage);
 
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
