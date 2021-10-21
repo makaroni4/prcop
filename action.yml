@@ -1,10 +1,14 @@
 name: prcop
 description: 'A Github action for linting Pull Requests.'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  GITHUB_TOKEN:
     required: true
-    default: 'World'
+  title-regexp:
+    description: 'Regular expression to check PR title.'
+    required: true
+  title-format-error-message:
+    description: 'Error message for invalid PR title.'
+    default: 'Your PR title does not match provided pattern.'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
