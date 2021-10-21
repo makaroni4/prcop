@@ -15,76 +15,80 @@ const countComments = async (octokit, prID, authorLogin) => {
   return authorComments.length;
 };
 
-try {
-  const octokit = new Octokit();
-  const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+const lint = async () => {
+  try {
+    const octokit = new Octokit();
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
 
-  console.log("--> Owner: ", owner);
-  console.log("--> Repo: ", repo);
+    console.log("--> Owner: ", owner);
+    console.log("--> Repo: ", repo);
 
-  // Check PR title
-  const prTitle = github.context.payload.pull_request.title;
+    // Check PR title
+    const prTitle = github.context.payload.pull_request.title;
 
-  const rawTitleRegexp = core.getInput("title-regexp");
+    const rawTitleRegexp = core.getInput("title-regexp");
 
-  if(rawTitleRegexp) {
-    const titleErrorMessage = core.getInput("title-format-error-message");
+    if(rawTitleRegexp) {
+      const titleErrorMessage = core.getInput("title-format-error-message");
 
-    const titleRegexp = new RegExp(rawTitleRegexp);
+      const titleRegexp = new RegExp(rawTitleRegexp);
 
-    if (titleRegexp.test(prTitle)) {
-      core.info("Your PR title is perfect!");
-    } else {
-      core.setFailed(titleErrorMessage);
+      if (titleRegexp.test(prTitle)) {
+        core.info("Your PR title is perfect!");
+      } else {
+        core.setFailed(titleErrorMessage);
+      }
     }
-  }
 
-  // Check PR description
-  const prDescription = github.context.payload.pull_request.body;
+    // Check PR description
+    const prDescription = github.context.payload.pull_request.body;
 
-  const rawDescriptionRegexp = core.getInput("description-regexp");
+    const rawDescriptionRegexp = core.getInput("description-regexp");
 
-  if(rawDescriptionRegexp) {
-    const descriptionErrorMessage = core.getInput("description-format-error-message");
+    if(rawDescriptionRegexp) {
+      const descriptionErrorMessage = core.getInput("description-format-error-message");
 
-    const desriptionRegexp = new RegExp(rawDescriptionRegexp);
+      const desriptionRegexp = new RegExp(rawDescriptionRegexp);
 
-    if (desriptionRegexp.test(prDescription)) {
-      core.info("Your PR description is perfect!");
-    } else {
-      core.setFailed(descriptionErrorMessage);
+      if (desriptionRegexp.test(prDescription)) {
+        core.info("Your PR description is perfect!");
+      } else {
+        core.setFailed(descriptionErrorMessage);
+      }
     }
-  }
 
-  // Check PR description length
-  const rawDescriptionMinWords = core.getInput("description-min-words") || 0;
+    // Check PR description length
+    const rawDescriptionMinWords = core.getInput("description-min-words") || 0;
 
-  if(rawDescriptionMinWords) {
-    const descriptionMinWords = parseInt(rawDescriptionMinWords, 10);
-    const descriptionWordsCount = prDescription.split(" ").length;
+    if(rawDescriptionMinWords) {
+      const descriptionMinWords = parseInt(rawDescriptionMinWords, 10);
+      const descriptionWordsCount = prDescription.split(" ").length;
 
-    if (descriptionWordsCount > descriptionMinWords) {
-      core.info("Your PR description is long enough!");
-    } else {
-      core.setFailed("Your PR description is too short.");
+      if (descriptionWordsCount > descriptionMinWords) {
+        core.info("Your PR description is long enough!");
+      } else {
+        core.setFailed("Your PR description is too short.");
+      }
     }
-  }
 
-  // Count author comments
-  const rawMinComments = core.getInput("min-comments") || 0;
+    // Count author comments
+    const rawMinComments = core.getInput("min-comments") || 0;
 
-  if(rawMinComments) {
-    const minCommentsCount = parseInt(rawMinComments, 10);
-    const authorLogin = github.context.payload.pull_request.user.login;
-    const prId = github.context.payload.pull_request.id;
-    const commentsCount = countComments(octokit, prId, authorLogin);
+    if(rawMinComments) {
+      const minCommentsCount = parseInt(rawMinComments, 10);
+      const authorLogin = github.context.payload.pull_request.user.login;
+      const prId = github.context.payload.pull_request.id;
+      const commentsCount = await countComments(octokit, prId, authorLogin);
 
-    if (commentsCount >= minCommentsCount) {
-      core.info("Your PR description has enough comments.");
-    } else {
-      core.setFailed("Your PR needs more comments!");
+      if (commentsCount >= minCommentsCount) {
+        core.info("Your PR description has enough comments.");
+      } else {
+        core.setFailed("Your PR needs more comments!");
+      }
     }
+  } catch (error) {
+    core.setFailed(error.message);
   }
-} catch (error) {
-  core.setFailed(error.message);
-}
+};
+
+lint();
