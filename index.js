@@ -1,7 +1,24 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
+const { Octokit } = require("@octokit/action");
 
 try {
+  const octokit = new Octokit();
+  const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+
+  console.lo("--> Owner: ", owner);
+  console.lo("--> Repo: ", repo);
+
+  const prTitle = github.context.payload.pull_request.title;
+
+  console.log("--> PR title: ", prTitle);
+
+  const titleRegexp = core.getInput("title-regexp");
+  const titleErrorMessage = core.getInput("title-format-error-message");
+
+  console.lo("--> titleRegexp: ", titleRegexp);
+  console.lo("--> titleErrorMessage: ", titleErrorMessage);
+
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
   console.log(`Hello ${nameToGreet}!`);
