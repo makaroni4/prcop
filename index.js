@@ -18,10 +18,12 @@ try {
   const titleRegexp = core.getInput("title-regexp");
   const titleErrorMessage = core.getInput("title-format-error-message");
 
-  console.log("--> titleRegexp: ", titleRegexp);
+  console.log(`--> titleRegexp: '${titleRegexp}'`);
+  console.log(`--> titleRegexp: '${titleRegexp.trim()}'`);
+
   console.log("--> titleErrorMessage: ", titleErrorMessage);
 
-  const regexp = new RegExp(titleRegexp);
+  const regexp = new RegExp(titleRegexp.trim());
 
   if (regexp.test(prTitle.trim())) {
     core.info("Your PR title is perfect!");
