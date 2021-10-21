@@ -12,12 +12,12 @@ try {
   // Check PR title
   const prTitle = github.context.payload.pull_request.title;
 
-  const titleRegexp = core.getInput("title-regexp");
+  const rawTitleRegexp = core.getInput("title-regexp");
 
-  if(titleRegexp) {
+  if(rawTitleRegexp) {
     const titleErrorMessage = core.getInput("title-format-error-message");
 
-    const titleRegexp = new RegExp(titleRegexp);
+    const titleRegexp = new RegExp(rawTitleRegexp);
 
     if (titleRegexp.test(prTitle)) {
       core.info("Your PR title is perfect!");
@@ -29,12 +29,12 @@ try {
   // Check PR description
   const prDescription = github.context.payload.pull_request.body;
 
-  const descriptionRegexp = core.getInput("description-regexp");
+  const rawDescriptionRegexp = core.getInput("description-regexp");
 
-  if(descriptionRegexp) {
+  if(rawDescriptionRegexp) {
     const descriptionErrorMessage = core.getInput("description-format-error-message");
 
-    const desriptionRegexp = new RegExp(titleRegexp);
+    const desriptionRegexp = new RegExp(rawDescriptionRegexp);
 
     if (desriptionRegexp.test(prDescription)) {
       core.info("Your PR description is perfect!");
@@ -44,9 +44,10 @@ try {
   }
 
   // Check PR description length
-  const descriptionMinWords = core.getInput("description-min-words") || 0;
+  const rawDescriptionMinWords = core.getInput("description-min-words") || 0;
 
-  if(descriptionMinWords) {
+  if(rawDescriptionMinWords) {
+    const descriptionMinWords = parseInt(rawDescriptionMinWords, 10);
     const descriptionWordsCount = prDescription.split(" ").length;
 
     if (descriptionWordsCount > descriptionMinWords) {
