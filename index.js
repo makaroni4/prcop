@@ -82,7 +82,8 @@ const lint = async () => {
       console.log("--> PR: ", github.context.payload.pull_request);
 
       const authorLogin = github.context.payload.pull_request.user.login;
-      const prId = github.context.payload.pull_request.id;
+      // PR number is in URL like 4821 https://github.com/blinkist/blinkist-web/pull/4821
+      const prId = github.context.payload.pull_request.number;
       const commentsCount = await countComments(octokit, prId, authorLogin);
 
       if (commentsCount >= minCommentsCount) {
