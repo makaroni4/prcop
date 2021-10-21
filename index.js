@@ -12,6 +12,8 @@ try {
   const prTitle = github.context.payload.pull_request.title;
 
   console.log("--> PR title: ", prTitle);
+  console.log(`--> PR title: ${prTitle}`);
+  console.log("--> PR title: ", prTitle.trim());
 
   const titleRegexp = core.getInput("title-regexp");
   const titleErrorMessage = core.getInput("title-format-error-message");
@@ -21,14 +23,11 @@ try {
 
   const regexp = new RegExp(titleRegexp);
 
-  if (regexp.test(prTitle)) {
+  if (regexp.test(prTitle.trim())) {
     core.info("Your PR title is perfect!");
   } else {
     core.setFailed(titleErrorMessage);
   }
-
-  const payload = JSON.stringify(github.context.payload, undefined, 2);
-  console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }
