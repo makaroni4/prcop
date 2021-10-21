@@ -1,6 +1,6 @@
 {
   "name": "prcop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Github action for linting Pull Requests.",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/makaroni4/prcop#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0"
+    "@actions/github": "^5.0.0",
+    "@octokit/action": "^3.18.0"
   }
 }
