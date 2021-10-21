@@ -9,26 +9,51 @@ try {
   console.log("--> Owner: ", owner);
   console.log("--> Repo: ", repo);
 
+  // Check PR title
   const prTitle = github.context.payload.pull_request.title;
 
-  console.log("--> PR title: ", prTitle);
-  console.log(`--> PR title: ${prTitle}`);
-  console.log("--> PR title: ", prTitle.trim());
-
   const titleRegexp = core.getInput("title-regexp");
-  const titleErrorMessage = core.getInput("title-format-error-message");
 
-  console.log(`--> titleRegexp: '${titleRegexp}'`);
-  console.log(`--> titleRegexp: '${titleRegexp.trim()}'`);
+  if(titleRegexp) {
+    const titleErrorMessage = core.getInput("title-format-error-message");
 
-  console.log("--> titleErrorMessage: ", titleErrorMessage);
+    const titleRegexp = new RegExp(titleRegexp);
 
-  const regexp = new RegExp(titleRegexp.trim());
+    if (titleRegexp.test(prTitle)) {
+      core.info("Your PR title is perfect!");
+    } else {
+      core.setFailed(titleErrorMessage);
+    }
+  }
 
-  if (regexp.test(prTitle.trim())) {
-    core.info("Your PR title is perfect!");
-  } else {
-    core.setFailed(titleErrorMessage);
+  // Check PR description
+  const prDescription = github.context.payload.pull_request.body;
+
+  const descriptionRegexp = core.getInput("description-regexp");
+
+  if(descriptionRegexp) {
+    const descriptionErrorMessage = core.getInput("description-format-error-message");
+
+    const desriptionRegexp = new RegExp(titleRegexp);
+
+    if (desriptionRegexp.test(prDescription)) {
+      core.info("Your PR description is perfect!");
+    } else {
+      core.setFailed(descriptionErrorMessage);
+    }
+  }
+
+  // Check PR description length
+  const descriptionMinWords = core.getInput("description-min-words") || 0;
+
+  if(descriptionMinWords) {
+    const descriptionWordsCount = prDescription.split(" ").length;
+
+    if (descriptionWordsCount > descriptionMinWords) {
+      core.info("Your PR description is long enough!");
+    } else {
+      core.setFailed("Your PR description is too short.");
+    }
   }
 } catch (error) {
   core.setFailed(error.message);

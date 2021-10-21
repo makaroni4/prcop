@@ -9,6 +9,15 @@ inputs:
   title-format-error-message:
     description: 'Error message for invalid PR title.'
     default: 'Your PR title does not match provided pattern.'
+  description-regexp:
+    description: 'Regular expression to check PR description.'
+    required: false
+  description-format-error-message:
+    description: 'Error message for invalid PR description.'
+    default: 'Your PR description does not match provided pattern.'
+  description-min-words:
+    description: 'Min number of words in your PR description.'
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'
