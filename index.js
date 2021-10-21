@@ -3,6 +3,8 @@ const github = require("@actions/github");
 const { Octokit } = require("@octokit/action");
 
 const countComments = async (octokit, prID, authorLogin) => {
+  console.log("--> countComments", prID, authorLogin);
+
   const response = await octokit.request(`GET /repos/blinkist/blinkist-web/pulls/${prID}/comments`, {
     org: "blinkist",
     type: "private"
@@ -76,6 +78,9 @@ const lint = async () => {
 
     if(rawMinComments) {
       const minCommentsCount = parseInt(rawMinComments, 10);
+      console.log("--> minCommentsCount: ", minCommentsCount);
+      console.log("--> PR: ", github.context.payload.pull_request);
+
       const authorLogin = github.context.payload.pull_request.user.login;
       const prId = github.context.payload.pull_request.id;
       const commentsCount = await countComments(octokit, prId, authorLogin);
@@ -88,6 +93,7 @@ const lint = async () => {
     }
   } catch (error) {
     core.setFailed(error.message);
+    core.setFailed(error.stack);
   }
 };
 
