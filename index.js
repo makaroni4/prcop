@@ -19,15 +19,19 @@ const countComments = async (octokit, prID, authorLogin) => {
 
 const lint = async () => {
   try {
-    const octokit = new Octokit();
-    const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+    const prTitle = github.context.payload.pull_request.title;
+    const prDescription = github.context.payload.pull_request.body;
 
-    console.log("--> Owner: ", owner);
-    console.log("--> Repo: ", repo);
+    // Check for disable word
+    const disableWord = core.getInput("disable-word");
+
+    if(prTitle.includes(disableWord) || prDescription.includes(disableWord)) {
+      core.info("prcop is disabled for that PR.");
+
+      return;
+    }
 
     // Check PR title
-    const prTitle = github.context.payload.pull_request.title;
-
     const rawTitleRegexp = core.getInput("title-regexp");
 
     if(rawTitleRegexp) {
@@ -43,8 +47,6 @@ const lint = async () => {
     }
 
     // Check PR description
-    const prDescription = github.context.payload.pull_request.body;
-
     const rawDescriptionRegexp = core.getInput("description-regexp");
 
     if(rawDescriptionRegexp) {

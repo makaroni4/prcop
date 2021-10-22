@@ -21,6 +21,9 @@ inputs:
   min-comments:
     description: 'Min number of comments.'
     required: false
+  disable-word:
+    description: 'A word to have in PR title or description to disable prcop.'
+    default: 'noprcop'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
