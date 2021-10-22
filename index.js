@@ -2,8 +2,8 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const { Octokit } = require("@octokit/action");
 
-const countComments = async (octokit, prID, authorLogin) => {
-  console.log("--> countComments", prID, authorLogin);
+const countComments = async (prID, authorLogin) => {
+  const octokit = new Octokit();
 
   const response = await octokit.request(`GET /repos/blinkist/blinkist-web/pulls/${prID}/comments`, {
     org: "blinkist",
@@ -80,13 +80,11 @@ const lint = async () => {
 
     if(rawMinComments) {
       const minCommentsCount = parseInt(rawMinComments, 10);
-      console.log("--> minCommentsCount: ", minCommentsCount);
-      console.log("--> PR: ", github.context.payload.pull_request);
-
       const authorLogin = github.context.payload.pull_request.user.login;
+
       // PR number is in URL like 4821 https://github.com/blinkist/blinkist-web/pull/4821
       const prId = github.context.payload.pull_request.number;
-      const commentsCount = await countComments(octokit, prId, authorLogin);
+      const commentsCount = await countComments(prId, authorLogin);
 
       if (commentsCount >= minCommentsCount) {
         core.info("Your PR description has enough comments.");
