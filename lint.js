@@ -2,9 +2,11 @@ const countComments = require("./count-comments");
 
 const lint = async (core, github, octokit) => {
   try {
+    console.log(github.context);
+
     const prTitle = github.context.payload.pull_request.title;
     const prDescription = github.context.payload.pull_request.body;
-    const repoFullName = github.context.repository.full_name;
+    const repoFullName = github.context.repository;
 
     // Check for disable word
     const disableWord = core.getInput("disable-word");
@@ -68,7 +70,7 @@ const lint = async (core, github, octokit) => {
 
       // PR number is in URL like 4821 https://github.com/foo/bar/pull/4821
       const prId = github.context.payload.pull_request.number;
-      const commentsCount = await countComments(octokit, prId, authorLogin);
+      const commentsCount = await countComments(octokit, prId, authorLogin, repoFullName);
 
       if (commentsCount >= minCommentsCount) {
         core.info("Your PR description has enough comments.");
