@@ -5,7 +5,7 @@ const lint = async (core, github, octokit) => {
     console.log(github.context);
 
     const prTitle = github.context.payload.pull_request.title;
-    const prDescription = github.context.payload.pull_request.body;
+    const prDescription = github.context.payload.pull_request.body || "";
     const repoFullName = github.context.payload.repository.full_name;
 
     // Check for disable word
