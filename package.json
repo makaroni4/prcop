@@ -1,6 +1,6 @@
 {
   "name": "prcop",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "A Github action for linting Pull Requests.",
   "main": "index.js",
   "scripts": {
