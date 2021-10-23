@@ -32,7 +32,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           title-regexp: "^(CK|PAN)-[0-9]+ "
           title-format-error-message: Oops, looks like your PR title does not contain Jira ticket ID.
-          description-regexp: "https://blinkist.atlassian.net/browse/(CK|PAN)-[0-9]+"
+          description-regexp: "https://org-name.atlassian.net/browse/(CK|PAN)-[0-9]+"
           description-format-error-message: Oops, looks like your PR description does not contain Jira ticket ID.
           description-min-words: 20
           min-comments: 1
