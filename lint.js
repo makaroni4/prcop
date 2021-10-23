@@ -1,4 +1,4 @@
-const countComments = require("./countComments");
+const countComments = require("./count-comments");
 
 const lint = async (core, github, octokit) => {
   try {
