@@ -22,7 +22,7 @@ jobs:
     name: PRcop
     steps:
       - name: Linting Pull Request
-        uses: makaroni4/prcop@v1.0.15
+        uses: makaroni4/prcop@v1.0.16
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           description-min-words: 20
