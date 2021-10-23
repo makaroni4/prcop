@@ -6,10 +6,10 @@ const lint = async (core, github, octokit) => {
 
     const prTitle = github.context.payload.pull_request.title;
     const prDescription = github.context.payload.pull_request.body;
-    const repoFullName = github.context.repository;
+    const repoFullName = github.context.payload.repository.full_name;
 
     // Check for disable word
-    const disableWord = core.getInput("disable-word");
+    const disableWord = core.getInput("disable-word") || "prcop:disable";
 
     if(prTitle.includes(disableWord) || prDescription.includes(disableWord)) {
       core.info("prcop is disabled for that PR.");
