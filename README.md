@@ -38,5 +38,3 @@ jobs:
           min-comments: 1
           disable-word: prcop:false
 ```
-
-TEST
