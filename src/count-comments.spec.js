@@ -13,6 +13,12 @@ describe("countComments", () => {
       }
     }
 
-    expect(countComments(octokit, "123", "makaroni4", "makaroni4/prcop")).resolves.toBe(1);
+    const pr = {
+      number: "123",
+      authorLogin: "makaroni4",
+      repoFullName: "makaroni4/prcop"
+    };
+
+    expect(countComments(octokit, pr)).resolves.toBe(1);
   });
 });

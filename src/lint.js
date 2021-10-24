@@ -15,7 +15,7 @@ const lint = async (core, github, octokit) => {
       authorLogin: github.context.payload.pull_request.user.login
     }
 
-    pr.authorCommentsCount = await countComments(octokit, pr.number, authorLogin, repoFullName);
+    pr.authorCommentsCount = await countComments(octokit, pr);
 
     const disableWord = core.getInput("disable-word") || "prcop:disable";
     if(disableWordPresent(core, pr, disableWord)) {
