@@ -1,6 +1,6 @@
 module.exports = (core, pr, rawDescriptionMinWords) => {
   const descriptionMinWords = parseInt(rawDescriptionMinWords, 10);
-  const descriptionWordsCount = prDescription.split(" ").length;
+  const descriptionWordsCount = pr.description.split(" ").length;
 
   if (descriptionWordsCount > descriptionMinWords) {
     core.info("Your PR description is long enough!");
