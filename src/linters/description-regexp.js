@@ -1,13 +1,9 @@
-module.exports = (core, pr, rawDescriptionRegexp, errorMessage) => {
-  if(!rawDescriptionRegexp) {
-    return;
-  }
-
-  const regexp = new RegExp(rawDescriptionRegexp);
+module.exports = (core, pr, config) => {
+  const regexp = new RegExp(config.regexp);
 
   if (regexp.test(pr.description)) {
     core.info("Your PR description is perfect!");
   } else {
-    core.setFailed(errorMessage);
+    core.setFailed(config.errorMessage);
   }
 };

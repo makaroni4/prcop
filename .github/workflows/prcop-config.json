@@ -1,40 +1,3 @@
-# prcop
-
-A Github action for linting Pull Requests.
-
-## Example usage
-
-```yaml
-name: PRcop
-
-on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
-      - ready_for_review
-      - review_requested
-      - review_request_removed
-  pull_request_review_comment:
-    types:
-      - created
-      - deleted
-
-jobs:
-  prcop:
-    runs-on: ubuntu-latest
-    name: PRcop
-    steps:
-      - name: Linting Pull Request
-        uses: makaroni4/prcop@v1.0.12
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          config_file: ".github/prcop-config.json"
-```
-
-```json
 {
   "linters": [
     {
@@ -54,18 +17,17 @@ jobs:
     {
       "name": "descriptionMinWords",
       "config": {
-        "count": 20,
+        "minWordsCount": 20,
         "errorMessage": "Please, write a meaningful PR description – it'll help your reviewer greatly."
       }
     },
     {
       "name": "minComments",
       "config": {
-        "count": 1,
+        "minCommentsCount": 1,
         "errorMessage": "Please, comment on your code. It's a great change to share your knowledge with your team."
       }
     }
   ],
   "disableWord": "prcop:disable"
 }
-```

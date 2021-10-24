@@ -4,6 +4,7 @@ const lintTitle = require("./linters/title-regexp");
 const lintDescription = require("./linters/description-regexp");
 const checkDescriptionMinWords = require("./linters/description-min-words");
 const checkAuthorCommentsCount = require("./linters/author-comments-count");
+const readConfig = require("./read-config");
 
 const lint = async (core, github, octokit) => {
   try {
@@ -17,24 +18,30 @@ const lint = async (core, github, octokit) => {
 
     pr.authorCommentsCount = await countComments(octokit, pr);
 
-    const disableWord = core.getInput("disable-word") || "prcop:disable";
+    const configFilePath = core.getInput("config-file");
+    const config = await readConfig(octokit, pr, configFilePath);
+
+    const disableWord = config.disableWord || "prcop:disable";
     if(disableWordPresent(core, pr, disableWord)) {
       return;
     }
 
-    const rawTitleRegexp = core.getInput("title-regexp");
-    const titleErrorMessage = core.getInput("title-format-error-message");
-    lintTitle(core, pr, rawTitleRegexp, titleErrorMessage);
-
-    const rawDescriptionRegexp = core.getInput("description-regexp");
-    const descriptionErrorMessage = core.getInput("description-format-error-message");
-    lintDescription(core, pr, rawDescriptionRegexp, descriptionErrorMessage);
-
-    const rawDescriptionMinWords = core.getInput("description-min-words") || 0;
-    checkDescriptionMinWords(core, pr, rawDescriptionMinWords);
-
-    const rawMinCommentsCount = core.getInput("min-comments") || 0;
-    checkAuthorCommentsCount(core, pr, rawMinCommentsCount);
+    config.linters.forEach(linter => {
+      switch(linter.name) {
+        case "titleRegexp":
+          lintTitle(core, pr, linter.config);
+          break;
+        case "descriptionRegexp":
+          lintDescription(core, pr, linter.config);
+          break;
+        case "descriptionMinWords":
+          checkDescriptionMinWords(core, pr, linter.config);
+          break;
+        case "minComments":
+          checkAuthorCommentsCount(core, pr, linter.config);
+          break;
+      }
+    })
   } catch (error) {
     core.setFailed(error.message);
     core.setFailed(error.stack);

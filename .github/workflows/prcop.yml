@@ -24,6 +24,4 @@ jobs:
         uses: makaroni4/prcop@v1.0.23
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          description-min-words: 20
-          min-comments: 1
-          disable-word: prcop:disable
+          config-file: ".github/workflows/prcop-config.json"
