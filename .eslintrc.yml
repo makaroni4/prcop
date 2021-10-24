@@ -1,3 +1,5 @@
+env:
+  jest: true
 extends:
   - airbnb
 rules:
@@ -7,3 +9,6 @@ rules:
   arrow-parens:
     - error
     - as-needed
+  comma-dangle:
+    - error
+    - never

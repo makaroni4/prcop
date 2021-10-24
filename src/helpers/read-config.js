@@ -2,8 +2,8 @@ module.exports = async (octokit, pr, configFilePath) => {
   const [owner, repo] = pr.repoFullName.split("/");
 
   const response = await octokit.repos.getContent({
-    owner: owner,
-    repo: repo,
+    owner,
+    repo,
     path: configFilePath
   });
 

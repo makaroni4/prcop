@@ -13,12 +13,12 @@ const lint = async (core, github, octokit) => {
     const config = await readConfig(octokit, pr, configFilePath);
 
     const disableWord = config.disableWord || "prcop:disable";
-    if(disableWordPresent(core, pr, disableWord)) {
+    if (disableWordPresent(core, pr, disableWord)) {
       return;
     }
 
     config.linters.forEach(linter => {
-      switch(linter.name) {
+      switch (linter.name) {
         case "titleRegexp":
           lintTitle(core, pr, linter.config);
           break;
@@ -31,8 +31,10 @@ const lint = async (core, github, octokit) => {
         case "minComments":
           checkAuthorCommentsCount(core, pr, linter.config);
           break;
+        default:
+          console.log(`--> Unregistered linter: ${linter}`); // eslint-disable-line no-console
       }
-    })
+    });
   } catch (error) {
     core.setFailed(error.message);
     core.setFailed(error.stack);

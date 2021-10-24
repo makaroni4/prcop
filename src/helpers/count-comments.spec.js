@@ -7,11 +7,11 @@ describe("countComments", () => {
         return {
           data: [
             { user: { login: "makaroni4" } },
-            { user: { login: "foobar" } },
+            { user: { login: "foobar" } }
           ]
         };
       }
-    }
+    };
 
     const pr = {
       number: "123",
