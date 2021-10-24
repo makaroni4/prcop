@@ -15,4 +15,4 @@ describe("countComments", () => {
 
     expect(countComments(octokit, "123", "makaroni4", "makaroni4/prcop")).resolves.toBe(1);
   });
-})
+});
