@@ -1,23 +1,14 @@
-const countComments = require("./count-comments");
 const disableWordPresent = require("./linters/disable-word");
 const lintTitle = require("./linters/title-regexp");
 const lintDescription = require("./linters/description-regexp");
 const checkDescriptionMinWords = require("./linters/description-min-words");
 const checkAuthorCommentsCount = require("./linters/author-comments-count");
-const readConfig = require("./read-config");
+const readConfig = require("./helpers/read-config");
+const loadPrData = require("./helpers/load-pr-data");
 
 const lint = async (core, github, octokit) => {
   try {
-    const pr = {
-      title: github.context.payload.pull_request.title,
-      description: github.context.payload.pull_request.body || "",
-      repoFullName: github.context.payload.repository.full_name,
-      number: github.context.payload.pull_request.number,
-      authorLogin: github.context.payload.pull_request.user.login
-    }
-
-    pr.authorCommentsCount = await countComments(octokit, pr);
-
+    const pr = await loadPrData(github, octokit);
     const configFilePath = core.getInput("config-file");
     const config = await readConfig(octokit, pr, configFilePath);
 
