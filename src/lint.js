@@ -11,11 +11,11 @@ const lint = async (core, github, octokit) => {
       title: github.context.payload.pull_request.title,
       description: github.context.payload.pull_request.body || "",
       repoFullName: github.context.payload.repository.full_name,
-      // PR number is in URL like 4821 https://github.com/foo/bar/pull/4821
-      prId: github.context.payload.pull_request.number,
-      authorCommentsCount: await countComments(octokit, prId, authorLogin, repoFullName),
+      number: github.context.payload.pull_request.number,
       authorLogin: github.context.payload.pull_request.user.login
     }
+
+    pr.authorCommentsCount = await countComments(octokit, pr.number, authorLogin, repoFullName);
 
     const disableWord = core.getInput("disable-word") || "prcop:disable";
     if(disableWordPresent(core, pr, disableWord)) {
