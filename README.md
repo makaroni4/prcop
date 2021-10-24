@@ -28,10 +28,10 @@ jobs:
     name: PRcop
     steps:
       - name: Linting Pull Request
-        uses: makaroni4/prcop@v1.0.12
+        uses: makaroni4/prcop@v1.0.27
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          config_file: ".github/prcop-config.json"
+          config-file: ".github/prcop-config.json"
 ```
 
 ```json
@@ -54,14 +54,14 @@ jobs:
     {
       "name": "descriptionMinWords",
       "config": {
-        "count": 20,
+        "minWordsCount": 20,
         "errorMessage": "Please, write a meaningful PR description – it'll help your reviewer greatly."
       }
     },
     {
       "name": "minComments",
       "config": {
-        "count": 1,
+        "minCommentsCount": 1,
         "errorMessage": "Please, comment on your code. It's a great change to share your knowledge with your team."
       }
     }
