@@ -21,8 +21,6 @@ const lint = async (core, github, octokit) => {
     const configFilePath = core.getInput("config-file");
     const config = await readConfig(octokit, pr, configFilePath);
 
-    console.log(config);
-
     const disableWord = config.disableWord || "prcop:disable";
     if(disableWordPresent(core, pr, disableWord)) {
       return;
