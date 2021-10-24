@@ -8,7 +8,7 @@ const loadPrData = require("./helpers/load-pr-data");
 
 const lint = async (core, github, octokit) => {
   try {
-    const pr = await loadPrData(github, octokit);
+    const pr = await loadPrData(octokit, github);
     const configFilePath = core.getInput("config-file");
     const config = await readConfig(octokit, pr, configFilePath);
 
