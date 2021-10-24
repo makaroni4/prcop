@@ -10,7 +10,6 @@ on:
       - ready_for_review
       - review_requested
       - review_request_removed
-      - pull_request_review_comment
   pull_request_review_comment:
     types:
       - created
