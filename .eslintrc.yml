@@ -1,0 +1,9 @@
+extends:
+  - airbnb
+rules:
+  quotes:
+    - error
+    - double
+  arrow-parens:
+    - error
+    - as-needed
