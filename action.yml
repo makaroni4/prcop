@@ -1,4 +1,4 @@
-name: prcop
+name: PRcop
 description: "A Github action for linting Pull Requests."
 inputs:
   GITHUB_TOKEN:

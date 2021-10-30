@@ -1,6 +1,6 @@
 const lintDescription = require("../../src/linters/description-regexp");
 
-describe("Linter: PR's title RegExp", () => {
+describe("Linter: PR's description RegExp", () => {
   const core = {
     info: jest.fn(),
     setFailed: jest.fn()
@@ -16,7 +16,7 @@ describe("Linter: PR's title RegExp", () => {
     core.setFailed.mockReset();
   });
 
-  describe("when PR title matches config's regexp", () => {
+  describe("when PR description matches config's regexp", () => {
     it("returns true", () => {
       const pr = {
         description: "CK-1249 Update dependencies"
@@ -27,7 +27,7 @@ describe("Linter: PR's title RegExp", () => {
     });
   });
 
-  describe("when PR title does not match config's regexp", () => {
+  describe("when PR description does not match config's regexp", () => {
     it("returns false", () => {
       const pr = {
         description: "Update dependencies"

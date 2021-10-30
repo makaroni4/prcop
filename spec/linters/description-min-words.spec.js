@@ -28,7 +28,7 @@ describe("Linter: min number of words in PR's description", () => {
     });
   });
 
-  describe("when PR description contains disable word", () => {
+  describe("when PR description is long enough", () => {
     it("returns true", () => {
       const pr = {
         title: "Update dependencies",
