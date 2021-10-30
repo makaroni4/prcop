@@ -1,0 +1,33 @@
+{
+  "linters": [
+    {
+      "name": "titleRegexp",
+      "config": {
+        "regexp": "^CK-[0-9]+",
+        "errorMessage": "PR title does not contain Jira ticket. Add CK-XXXX in the beginning of the PR title."
+      }
+    },
+    {
+      "name": "descriptionRegexp",
+      "config": {
+        "regexp": "CK-[0-9]+",
+        "errorMessage": "PR description does not contain a link to a Jira ticket."
+      }
+    },
+    {
+      "name": "descriptionMinWords",
+      "config": {
+        "minWordsCount": 20,
+        "errorMessage": "Please, write a meaningful PR description – it'll help your reviewer greatly."
+      }
+    },
+    {
+      "name": "minComments",
+      "config": {
+        "minCommentsCount": 1,
+        "errorMessage": "Please, comment on your code. It's a great change to share your knowledge with your team."
+      }
+    }
+  ],
+  "disableWord": "prcop:disable"
+}

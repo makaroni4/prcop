@@ -1,4 +1,4 @@
-# prcop
+# PRcop
 
 A Github action for linting Pull Requests.
 
@@ -13,6 +13,7 @@ on:
       - opened
       - reopened
       - edited
+      - synchronize
       - ready_for_review
       - review_requested
       - review_request_removed
@@ -27,16 +28,46 @@ jobs:
     name: PRcop
     steps:
       - name: Linting Pull Request
-        uses: makaroni4/prcop@v1.0.12
+        uses: makaroni4/prcop@v1.0.29
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          title-regexp: "^(CK|PAN)-[0-9]+ "
-          title-format-error-message: Oops, looks like your PR title does not contain Jira ticket ID.
-          description-regexp: "https://org-name.atlassian.net/browse/(CK|PAN)-[0-9]+"
-          description-format-error-message: Oops, looks like your PR description does not contain Jira ticket ID.
-          description-min-words: 20
-          min-comments: 1
-          disable-word: prcop:false
+          config-file: ".github/prcop-config.json"
+```
+
+```json
+{
+  "linters": [
+    {
+      "name": "titleRegexp",
+      "config": {
+        "regexp": "^CK-[0-9]+",
+        "errorMessage": "PR title does not contain Jira ticket. Add CK-XXXX in the beginning of the PR title."
+      }
+    },
+    {
+      "name": "descriptionRegexp",
+      "config": {
+        "regexp": "CK-[0-9]+",
+        "errorMessage": "PR description does not contain a link to a Jira ticket."
+      }
+    },
+    {
+      "name": "descriptionMinWords",
+      "config": {
+        "minWordsCount": 20,
+        "errorMessage": "Please, write a meaningful PR description – it'll help your reviewer greatly."
+      }
+    },
+    {
+      "name": "minComments",
+      "config": {
+        "minCommentsCount": 1,
+        "errorMessage": "Please, comment on your code. It's a great change to share your knowledge with your team."
+      }
+    }
+  ],
+  "disableWord": "prcop:disable"
+}
 ```
 
 TEST

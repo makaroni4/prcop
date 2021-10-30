@@ -1,0 +1,14 @@
+env:
+  jest: true
+extends:
+  - airbnb
+rules:
+  quotes:
+    - error
+    - double
+  arrow-parens:
+    - error
+    - as-needed
+  comma-dangle:
+    - error
+    - never

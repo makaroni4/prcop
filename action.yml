@@ -1,32 +1,11 @@
-name: prcop
-description: 'A Github action for linting Pull Requests.'
+name: PRcop
+description: "A Github action for linting Pull Requests."
 inputs:
   GITHUB_TOKEN:
     required: true
-  title-regexp:
-    description: 'Regular expression to check PR title.'
-    required: true
-  title-format-error-message:
-    description: 'Error message for invalid PR title.'
-    default: 'Your PR title does not match provided pattern.'
-  description-regexp:
-    description: 'Regular expression to check PR description.'
-    required: false
-  description-format-error-message:
-    description: 'Error message for invalid PR description.'
-    default: 'Your PR description does not match provided pattern.'
-  description-min-words:
-    description: 'Min number of words in your PR description.'
-    required: false
-  min-comments:
-    description: 'Min number of comments.'
-    required: false
-  disable-word:
-    description: 'A word to have in PR title or description to disable prcop.'
-    default: 'noprcop'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  config-file:
+    description: "Pathname of the config file"
+    default: ".github/prcop-config.json"
 runs:
-  using: 'node12'
-  main: 'index.js'
+  using: "node12"
+  main: "index.js"
