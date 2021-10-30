@@ -1,7 +1,7 @@
 const countComments = require("../../src/helpers/count-comments");
 
 describe("countComments", () => {
-  test("counts author comments on PR", () => {
+  it("counts author comments on PR", () => {
     const octokit = {
       request() {
         return {
