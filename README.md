@@ -16,7 +16,7 @@ A Github action for linting Pull Requests.
 
 ### Add Github action config
 
-Create a file `.github/workfows/prcop.yml` and paste this YAML there. :point_down.
+Create a file `.github/workfows/prcop.yml` and paste this YAML there. :point_down:
 
 :warning: Make sure you're using the latest version (line `uses: makaroni4/prcop@v1.0.31`).
 
@@ -52,7 +52,7 @@ jobs:
 
 ### Add PRcop config
 
-Create a file `.github/workfows/prcop-config.json` and paste this JSON there. :point_down.
+Create a file `.github/workfows/prcop-config.json` and paste this JSON there. :point_down:
 
 Customize it according to your needs.
 
