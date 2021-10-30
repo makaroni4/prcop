@@ -1,6 +1,6 @@
 const disableWordPresent = require("../../src/linters/disable-word");
 
-describe("disableWordPresent", () => {
+describe("Disable PRcop if a disable word is present", () => {
   const core = {
     info: jest.fn(),
     setFailed: jest.fn()

@@ -1,4 +1,4 @@
-# prcop
+# PRcop
 
 A Github action for linting Pull Requests.
 
