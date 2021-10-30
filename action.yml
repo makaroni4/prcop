@@ -1,5 +1,8 @@
 name: PRcop
 description: "A Github action for linting Pull Requests."
+branding:
+  icon: "check-circle"
+  color: "green"
 inputs:
   GITHUB_TOKEN:
     required: true
