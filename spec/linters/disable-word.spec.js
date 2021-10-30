@@ -1,15 +1,21 @@
 const disableWordPresent = require("../../src/linters/disable-word");
 
 describe("disableWordPresent", () => {
+  const core = {
+    info: jest.fn(),
+    setFailed: jest.fn()
+  };
+
+  beforeEach(() => {
+    core.info.mockReset();
+    core.setFailed.mockReset();
+  });
+
   describe("when PR title contains disable word", () => {
     it("returns true", () => {
       const pr = {
-        title: "Update dependandices prcop:disable",
+        title: "Update dependencies prcop:disable",
         description: null
-      };
-
-      const core = {
-        info: jest.fn()
       };
 
       expect(disableWordPresent(core, pr, "prcop:disable")).toBe(true);
@@ -20,12 +26,8 @@ describe("disableWordPresent", () => {
   describe("when PR description contains disable word", () => {
     it("returns true", () => {
       const pr = {
-        title: "Update dependandices",
+        title: "Update dependencies",
         description: "prcop:disable"
-      };
-
-      const core = {
-        info: jest.fn()
       };
 
       expect(disableWordPresent(core, pr, "prcop:disable")).toBe(true);
@@ -36,12 +38,8 @@ describe("disableWordPresent", () => {
   describe("when PR title and description don't contain disable word", () => {
     it("returns false", () => {
       const pr = {
-        title: "Update dependandices",
+        title: "Update dependencies",
         description: null
-      };
-
-      const core = {
-        info: jest.fn()
       };
 
       expect(disableWordPresent(core, pr, "prcop:disable")).toBe(false);
